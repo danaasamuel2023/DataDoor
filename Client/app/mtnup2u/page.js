@@ -1,0 +1,564 @@
+'use client';
+import React, { useState, useEffect } from 'react';
+import { AlertTriangle, CheckCircle, X, Info, Shield, Phone, CreditCard, ArrowRight, Database, Globe, Wallet } from 'lucide-react';
+
+// ========== CONFIG - SINGLE API BASE URL ==========
+const API_BASE = 'https://datanest-lkyu.onrender.com/api/v1/data';
+// OR for local development:
+// const API_BASE = 'http://localhost:5000/api/v1/data';
+
+const Toast = ({ message, type, onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, 4000);
+    
+    return () => clearTimeout(timer);
+  }, [onClose]);
+  
+  return (
+    <div className="fixed top-4 right-4 z-50 animate-slide-in">
+      <div className={`p-4 rounded-xl shadow-xl flex items-center border ${
+        type === 'success' 
+          ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800' 
+          : type === 'error' 
+            ? 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800' 
+            : 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800'
+      }`}>
+        <div className="mr-3">
+          {type === 'success' ? (
+            <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
+          ) : type === 'error' ? (
+            <X className="h-5 w-5 text-red-600 dark:text-red-400" strokeWidth={2} />
+          ) : (
+            <Info className="h-5 w-5 text-amber-600 dark:text-amber-400" strokeWidth={2} />
+          )}
+        </div>
+        <div className="flex-grow">
+          <p className="font-semibold text-sm">{message}</p>
+        </div>
+        <button onClick={onClose} className="ml-4 hover:opacity-70 transition-opacity">
+          <X className="h-4 w-4" strokeWidth={2} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const PurchaseModal = ({ isOpen, onClose, bundle, phoneNumber, setPhoneNumber, onPurchaseWallet, onPurchaseMomo, error, isLoading, isGuest = false }) => {
+  const [email, setEmail] = useState('');
+
+  if (!isOpen || !bundle) return null;
+
+  const handlePhoneNumberChange = (e) => {
+    let formatted = e.target.value.replace(/\D/g, '');
+    
+    if (!formatted.startsWith('0') && formatted.length > 0) {
+      formatted = '0' + formatted;
+    }
+    
+    if (formatted.length > 10) {
+      formatted = formatted.substring(0, 10);
+    }
+    
+    setPhoneNumber(formatted);
+  };
+
+  const validateForm = () => {
+    if (!phoneNumber || phoneNumber.length !== 10) {
+      return false;
+    }
+    if (isGuest && !email) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleWalletClick = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      onPurchaseWallet(isGuest ? email : null);
+    }
+  };
+
+  const handleMomoClick = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      onPurchaseMomo(isGuest ? email : null);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 w-full max-w-md shadow-2xl">
+        <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-6 py-5 rounded-t-xl flex justify-between items-center">
+          <h3 className="text-xl font-bold text-white flex items-center">
+            <Globe className="w-6 h-6 mr-3" strokeWidth={2} />
+            Purchase {bundle.capacity}GB
+          </h3>
+          <button onClick={onClose} className="text-white hover:text-white/70 p-2 rounded-lg hover:bg-white/10 transition-all">
+            <X className="w-5 h-5" strokeWidth={2} />
+          </button>
+        </div>
+        
+        <div className="px-6 py-6">
+          <div className="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-5 mb-5 border border-slate-200 dark:border-slate-600">
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-slate-700 dark:text-slate-300 font-semibold">Data Bundle:</span>
+              <span className="text-yellow-600 dark:text-yellow-400 font-bold text-lg">{bundle.capacity}GB</span>
+            </div>
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-slate-700 dark:text-slate-300 font-semibold">Duration:</span>
+              <span className="text-yellow-600 dark:text-yellow-400 font-bold">No-Expiry</span>
+            </div>
+            <div className="flex justify-between items-center border-t border-slate-300 dark:border-slate-600 pt-3">
+              <span className="text-slate-900 dark:text-white font-bold text-lg">Total Price:</span>
+              <span className="text-yellow-600 dark:text-yellow-400 font-bold text-xl">GH₵{bundle.price}</span>
+            </div>
+          </div>
+
+          {error && (
+            <div className="mb-5 p-4 rounded-xl flex items-start bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+              <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg mr-3">
+                <X className="w-4 h-4 text-red-600 dark:text-red-400" strokeWidth={2} />
+              </div>
+              <span className="text-red-800 dark:text-red-300 text-sm font-medium">{error}</span>
+            </div>
+          )}
+
+          {isGuest && (
+            <div className="mb-5">
+              <label className="block text-sm font-bold mb-2 text-slate-900 dark:text-white">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="px-4 py-3 block w-full rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 font-semibold text-base transition-all"
+                placeholder="your@email.com"
+                required
+                autoFocus
+              />
+              <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">We'll use this for payment confirmation</p>
+            </div>
+          )}
+
+          <div className="mb-5">
+            <label className="block text-sm font-bold mb-2 text-slate-900 dark:text-white">
+              MTN Phone Number
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Phone className="w-5 h-5 text-yellow-600 dark:text-yellow-400" strokeWidth={2} />
+              </div>
+              <input
+                type="tel"
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                className="pl-12 pr-4 py-3 block w-full rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 font-semibold text-base transition-all"
+                placeholder="0XXXXXXXXX"
+                required
+                autoFocus={!isGuest}
+              />
+            </div>
+            <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">Format: 0 followed by 9 digits</p>
+          </div>
+
+          <div className="mb-5 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+            <div className="flex items-start">
+              <div className="p-1.5 bg-amber-100 dark:bg-amber-900/30 rounded-lg mr-3 flex-shrink-0">
+                <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" strokeWidth={2} />
+              </div>
+              <div>
+                <p className="text-amber-900 dark:text-amber-300 text-sm font-semibold mb-1">
+                  Important Notice
+                </p>
+                <p className="text-amber-800 dark:text-amber-400 text-xs font-medium">
+                  Verify your number carefully. No refunds for incorrect numbers.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="py-3 px-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white font-semibold rounded-xl transition-all border border-slate-200 dark:border-slate-600 disabled:opacity-50"
+              disabled={isLoading}
+            >
+              Cancel
+            </button>
+            
+            {!isGuest && (
+              <button
+                type="button"
+                onClick={handleWalletClick}
+                disabled={isLoading || !validateForm()}
+                className="py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl"
+                title="Pay from your wallet balance"
+              >
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <Wallet className="w-5 h-5 mr-1" strokeWidth={2} />
+                    Wallet
+                  </>
+                )}
+              </button>
+            )}
+            
+            <button
+              type="button"
+              onClick={handleMomoClick}
+              disabled={isLoading || !validateForm()}
+              className={`py-3 px-4 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl ${
+                isGuest ? 'col-span-2' : 'col-span-1'
+              }`}
+              title="Pay with MTN MoMo"
+            >
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <CreditCard className="w-5 h-5 mr-1" strokeWidth={2} />
+                  MoMo
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MTNBundleSelect = () => {
+  const [selectedBundle, setSelectedBundle] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [userData, setUserData] = useState(null);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [pendingPurchase, setPendingPurchase] = useState(null);
+  const [guestEmail, setGuestEmail] = useState('');
+  
+  const [toast, setToast] = useState({
+    visible: false,
+    message: '',
+    type: 'success'
+  });
+  
+  const inventoryAvailable = true;
+  
+  const bundles = [
+    { value: '1', label: '1GB', capacity: '1', price: '4.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '2', label: '2GB', capacity: '2', price: '9.20', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '3', label: '3GB', capacity: '3', price: '13.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '4', label: '4GB', capacity: '4', price: '18.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '5', label: '5GB', capacity: '5', price: '24.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '6', label: '6GB', capacity: '6', price: '28.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '8', label: '8GB', capacity: '8', price: '38.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '10', label: '10GB', capacity: '10', price: '46.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '15', label: '15GB', capacity: '15', price: '66.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '20', label: '20GB', capacity: '20', price: '88.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '25', label: '25GB', capacity: '25', price: '112.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '30', label: '30GB', capacity: '30', price: '137.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '40', label: '40GB', capacity: '40', price: '169.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '50', label: '50GB', capacity: '50', price: '210.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '100', label: '100GB', capacity: '100', price: '420.00', network: 'YELLO', inStock: inventoryAvailable }
+  ];
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  const showToast = (message, type = 'success') => {
+    setToast({
+      visible: true,
+      message,
+      type
+    });
+  };
+
+  const hideToast = () => {
+    setToast(prev => ({
+      ...prev,
+      visible: false
+    }));
+  };
+
+  const handleBundleSelect = (bundle) => {
+    if (!bundle.inStock) {
+      showToast('This bundle is currently out of stock', 'error');
+      return;
+    }
+
+    setSelectedBundle(bundle.value);
+    setPendingPurchase(bundle);
+    setPhoneNumber('');
+    setError('');
+    setIsPurchaseModalOpen(true);
+  };
+
+  const processPurchase = async (paymentMethod, passedGuestEmail = null) => {
+    if (!pendingPurchase) return;
+    
+    const isGuest = !userData || !userData.id;
+    setIsLoading(true);
+    setError('');
+
+    try {
+      let url;
+      let payload;
+
+      if (paymentMethod === 'wallet' && !isGuest) {
+        // Use wallet purchase endpoint for authenticated users
+        url = `${API_BASE}/purchase-data`;
+        payload = {
+          userId: userData.id,
+          phoneNumber: phoneNumber,
+          network: pendingPurchase.network,
+          capacity: parseInt(pendingPurchase.capacity),
+          price: parseFloat(pendingPurchase.price)
+        };
+
+        console.log('📤 Sending WALLET request to:', url);
+        console.log('📋 Payload:', payload);
+
+      } else {
+        // Use Paystack for guests or MoMo payment
+        url = `${API_BASE}/paystack-initialize`;
+        payload = {
+          email: passedGuestEmail || userData?.email,
+          phoneNumber: phoneNumber,
+          network: pendingPurchase.network,
+          capacity: parseInt(pendingPurchase.capacity),
+          price: parseFloat(pendingPurchase.price),
+          userId: userData?.id || null
+        };
+
+        console.log('📤 Sending MOMO request to:', url);
+        console.log('📋 Payload:', payload);
+      }
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      console.log('✅ Response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('❌ Error response:', errorData);
+        throw new Error(errorData.message || `HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (paymentMethod === 'wallet' && !isGuest) {
+        // Wallet payment successful - immediate deduction
+        if (data.status === 'success') {
+          showToast('✅ Data bundle purchased successfully!', 'success');
+          console.log('💰 Wallet deduction confirmed:', data.data);
+          
+          // Update local userData with new wallet balance
+          if (userData && data.data?.walletBalance?.current) {
+            const updatedUserData = {
+              ...userData,
+              walletBalance: data.data.walletBalance.current
+            };
+            localStorage.setItem('userData', JSON.stringify(updatedUserData));
+            setUserData(updatedUserData);
+          }
+          
+          setSelectedBundle('');
+          setPhoneNumber('');
+          setIsPurchaseModalOpen(false);
+          setPendingPurchase(null);
+          setGuestEmail('');
+          setIsLoading(false);
+        } else {
+          throw new Error(data.message || 'Wallet purchase failed');
+        }
+
+      } else {
+        // Paystack/MoMo payment - redirect to payment page
+        if (data.status === 'success' && data.data?.paymentUrl) {
+          showToast('✅ Redirecting to payment page...', 'success');
+          setSelectedBundle('');
+          setPhoneNumber('');
+          setIsPurchaseModalOpen(false);
+          setPendingPurchase(null);
+          setGuestEmail('');
+          setIsLoading(false);
+          
+          // Redirect to Paystack
+          window.location.href = data.data.paymentUrl;
+        } else {
+          throw new Error(data.message || 'Payment initialization failed');
+        }
+      }
+
+    } catch (error) {
+      console.error('💥 Purchase error:', error);
+      const errorMessage = error.message || 'Purchase failed. Please try again.';
+      setError(errorMessage);
+      showToast(errorMessage, 'error');
+      setIsLoading(false);
+    }
+  };
+
+  const handleWalletPayment = (passedGuestEmail = null) => {
+    if (!userData || !userData.id) {
+      showToast('⚠️ Wallet payment is only available for registered users. Please log in or use MoMo.', 'error');
+      return;
+    }
+    
+    if (passedGuestEmail) {
+      setGuestEmail(passedGuestEmail);
+    }
+    processPurchase('wallet', passedGuestEmail);
+  };
+
+  const handlePaystackPayment = (passedGuestEmail = null) => {
+    if (passedGuestEmail) {
+      setGuestEmail(passedGuestEmail);
+    }
+    processPurchase('paystack', passedGuestEmail);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 py-8 px-4">
+      {toast.visible && (
+        <Toast 
+          message={toast.message}
+          type={toast.type}
+          onClose={hideToast}
+        />
+      )}
+      
+      <div className="max-w-4xl mx-auto">
+        <PurchaseModal
+          isOpen={isPurchaseModalOpen}
+          onClose={() => {
+            setIsPurchaseModalOpen(false);
+            setPendingPurchase(null);
+            setPhoneNumber('');
+            setError('');
+            setGuestEmail('');
+          }}
+          bundle={pendingPurchase}
+          phoneNumber={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
+          onPurchaseWallet={handleWalletPayment}
+          onPurchaseMomo={handlePaystackPayment}
+          error={error}
+          isLoading={isLoading}
+          isGuest={!userData || !userData.id}
+        />
+        
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg">
+              <Globe className="w-7 h-7 text-white" strokeWidth={2.5} />
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+              MTN Data Bundles
+            </h1>
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 text-lg font-semibold">Non-Expiry Data Packages</p>
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div className="bg-gradient-to-r from-yellow-500 to-amber-500 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+                  <Globe className="w-6 h-6 text-white" strokeWidth={2} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white">Select Your Bundle</h2>
+                  <p className="text-white/90 text-sm">Choose data size and purchase instantly</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mb-6">
+              {bundles.map((bundle) => (
+                <button
+                  key={bundle.value}
+                  type="button"
+                  onClick={() => handleBundleSelect(bundle)}
+                  disabled={!bundle.inStock}
+                  className={`p-5 rounded-xl text-center transition-all border transform hover:scale-105 ${
+                    bundle.inStock
+                      ? 'bg-slate-50 dark:bg-slate-700/50 border-slate-200 dark:border-slate-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:border-yellow-400 dark:hover:border-yellow-500 cursor-pointer shadow-sm hover:shadow-md'
+                      : 'bg-slate-100 dark:bg-slate-700 border-slate-300 dark:border-slate-600 cursor-not-allowed opacity-50'
+                  }`}
+                >
+                  <div className="text-lg font-bold mb-2 text-slate-900 dark:text-white">{bundle.label}</div>
+                  <div className="text-yellow-600 dark:text-yellow-400 font-bold text-base mb-1">GH₵{bundle.price}</div>
+                  {!bundle.inStock ? (
+                    <div className="text-red-600 dark:text-red-400 text-xs font-semibold">Out of Stock</div>
+                  ) : (
+                    <div className="text-slate-500 dark:text-slate-400 text-xs font-medium">Click to buy</div>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div className="p-5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+              <div className="flex items-start">
+                <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg mr-3 flex-shrink-0">
+                  <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" strokeWidth={2} />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-red-900 dark:text-red-300 mb-3">Important Notice</h4>
+                  <div className="space-y-2 text-red-800 dark:text-red-400 text-sm font-medium">
+                    <p>• Not instant service - delivery takes time</p>
+                    <p>• Turbonet & Broadband SIMs not eligible</p>
+                    <p>• No refunds for incorrect numbers</p>
+                    <p>• For urgent data needs, use *138# instead</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {userData && userData.id && (
+              <div className="mt-6 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                <div className="flex items-start">
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-3 flex-shrink-0">
+                    <Wallet className="w-5 h-5 text-blue-600 dark:text-blue-400" strokeWidth={2} />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-blue-900 dark:text-blue-300 mb-1">Wallet Payment Available</h4>
+                    <p className="text-blue-800 dark:text-blue-400 text-sm font-medium">
+                      Your wallet balance: <span className="font-bold text-blue-600 dark:text-blue-300">GH₵{(userData.walletBalance || 0).toFixed(2)}</span>
+                    </p>
+                    <p className="text-blue-700 dark:text-blue-400 text-xs font-medium mt-1">
+                      Use Wallet for instant purchases, or MoMo to add funds
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MTNBundleSelect;
