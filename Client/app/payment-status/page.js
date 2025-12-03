@@ -11,7 +11,7 @@ const createPaymentResource = (reference) => {
   const fetchPayment = async () => {
     try {
       const response = await fetch(
-        `https://datanest-lkyu.onrender.com/api/v1/data/paystack-status/${reference}`
+        `https://datadoor.onrender.com/api/v1/data/paystack-status/${reference}`
       );
 
       if (!response.ok) {

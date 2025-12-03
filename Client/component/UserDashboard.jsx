@@ -147,7 +147,7 @@ const DashboardPage = () => {
       setIsLoading(true);
       const token = localStorage.getItem('authToken');
       
-      const res = await fetch(`https://datanest-lkyu.onrender.com/api/v1/data/user-dashboard/${userId}`, {
+      const res = await fetch(`https://datadoor.onrender.com/api/v1/data/user-dashboard/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

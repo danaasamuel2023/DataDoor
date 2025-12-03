@@ -26,7 +26,7 @@ export const metadata = {
   openGraph: {
     title: "DataDoor | Ghana's Premier Data Marketplace",
     description: "Your gateway to seamless data services in Ghana. Buy and manage mobile data plans with ease.",
-    url: "https://www.datanestgh.com",
+    url: "https://www.datadoorgh.shop",
     siteName: "DataDoor",
     images: [
       {
@@ -46,13 +46,13 @@ export const metadata = {
     images: ["/images/datamart-twitter.jpg"],
   },
   alternates: {
-    canonical: "https://www.datanestgh.shop/",
+    canonical: "https://www.datadoorgh.shop/",
   },
   robots: {
     index: true,
     follow: true,
   },
-  metadataBase: new URL("https://www.datanestgh.shop"),
+  metadataBase: new URL("https://www.datadoorgh.shop"),
 };
 
 export default function RootLayout({ children }) {

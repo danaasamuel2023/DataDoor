@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { AlertTriangle, CheckCircle, X, Info, Shield, Phone, CreditCard, ArrowRight, Database, Globe, Wallet } from 'lucide-react';
 
 // ========== CONFIG - SINGLE API BASE URL ==========
-const API_BASE = 'https://datanest-lkyu.onrender.com/api/v1/data';
+const API_BASE = 'https://datadoor.onrender.com/api/v1/data';
 // OR for local development:
 // const API_BASE = 'http://localhost:5000/api/v1/data';
 
