@@ -98,7 +98,7 @@ export default function DepositPage() {
   const handleDeposit = async (e) => {
     e.preventDefault();
     
-    // Validate first
+    // Validate first`
     if (!validateDeposit()) {
       return;
     }
@@ -112,7 +112,7 @@ export default function DepositPage() {
       const total = parseFloat(totalAmount);
       
       // Send both values for server-side verification
-      const response = await fetch('https://datanest-lkyu.onrender.com/api/v1/deposit', {
+      const response = await fetch('https://datadoor.onrender.com/m/api/v1/deposit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -186,13 +186,13 @@ export default function DepositPage() {
         <div className="text-center">
           <div className="relative w-20 h-20 mx-auto mb-6">
             <div className="w-20 h-20 rounded-full border-3 border-slate-200 dark:border-slate-700"></div>
-            <div className="absolute top-0 w-20 h-20 rounded-full border-3 border-transparent border-t-blue-600 dark:border-t-blue-500 animate-spin"></div>
-            <div className="absolute inset-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 flex items-center justify-center shadow-lg">
+            <div className="absolute top-0 w-20 h-20 rounded-full border-3 border-transparent border-t-teal-600 dark:border-t-teal-500 animate-spin"></div>
+            <div className="absolute inset-3 rounded-xl bg-gradient-to-br from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 flex items-center justify-center shadow-lg shadow-teal-500/30">
               <Database className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>
           </div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
-            DataNest <span className="text-blue-600 dark:text-blue-500">GH</span>
+            Data<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400">Door</span>
           </h1>
           <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Verifying authentication...</p>
         </div>
@@ -206,11 +206,11 @@ export default function DepositPage() {
         {/* Header Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/30">
               <Database className="w-6 h-6 text-white" strokeWidth={2.5} />
             </div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
-              DataNest <span className="text-blue-600 dark:text-blue-500">GH</span>
+              Data<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400">Door</span>
             </h1>
           </div>
           <p className="text-slate-600 dark:text-slate-400 text-lg font-semibold">Deposit Funds</p>
@@ -220,7 +220,7 @@ export default function DepositPage() {
         {/* Main Card */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 p-6">
+          <div className="bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
@@ -228,12 +228,12 @@ export default function DepositPage() {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-white">Add Funds</h2>
-                  <p className="text-blue-100 text-sm">Secure payment via Paystack</p>
+                  <p className="text-teal-100 text-sm">Secure payment via Paystack</p>
                 </div>
               </div>
-              
-              <Link 
-                href="/howtodeposite" 
+
+              <Link
+                href="/howtodeposite"
                 className="flex items-center space-x-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/30 hover:bg-white/30 transition-all"
               >
                 <Info size={16} strokeWidth={2} />
@@ -261,17 +261,17 @@ export default function DepositPage() {
             </div>
 
             {/* Info Banner */}
-            <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
+            <div className="p-4 rounded-xl bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800">
               <div className="flex items-start space-x-3">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg flex-shrink-0">
-                  <Info className="w-5 h-5 text-blue-600 dark:text-blue-400" strokeWidth={2} />
+                <div className="p-2 bg-teal-100 dark:bg-teal-900/40 rounded-lg flex-shrink-0">
+                  <Info className="w-5 h-5 text-teal-600 dark:text-teal-400" strokeWidth={2} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-1">
+                  <p className="text-sm font-semibold text-teal-900 dark:text-teal-300 mb-1">
                     Need assistance with deposits?
                   </p>
-                  <p className="text-sm text-blue-700 dark:text-blue-400">
-                    <Link href="/howtodeposite" className="underline font-semibold hover:text-blue-800 dark:hover:text-blue-300">
+                  <p className="text-sm text-teal-700 dark:text-teal-400">
+                    <Link href="/howtodeposite" className="underline font-semibold hover:text-teal-800 dark:hover:text-teal-300">
                       View our step-by-step guide
                     </Link> for detailed instructions.
                   </p>
@@ -307,12 +307,12 @@ export default function DepositPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <span className="text-blue-600 dark:text-blue-400 text-lg font-bold">₵</span>
+                    <span className="text-teal-600 dark:text-teal-400 text-lg font-bold">₵</span>
                   </div>
                   <input
                     type="number"
                     id="amount"
-                    className="pl-12 pr-4 py-3 block w-full rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-semibold text-lg transition-all"
+                    className="pl-12 pr-4 py-3 block w-full rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-semibold text-lg transition-all"
                     placeholder="Enter amount (min. 5 GHS)"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
@@ -330,7 +330,7 @@ export default function DepositPage() {
               {amount && parseFloat(amount) > 0 && (
                 <div className="p-5 bg-slate-50 dark:bg-slate-700/50 rounded-xl border border-slate-200 dark:border-slate-600">
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                    <TrendingUp className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" strokeWidth={2} />
+                    <TrendingUp className="w-5 h-5 mr-2 text-teal-600 dark:text-teal-400" strokeWidth={2} />
                     Payment Breakdown (Auto-Calculated)
                   </h3>
                   <div className="space-y-3">
@@ -345,7 +345,7 @@ export default function DepositPage() {
                     <div className="border-t border-slate-300 dark:border-slate-600 pt-3 mt-3">
                       <div className="flex justify-between">
                         <span className="text-lg font-bold text-slate-900 dark:text-white">Total to Pay:</span>
-                        <span className="text-lg font-bold text-blue-600 dark:text-blue-400">GHS {totalAmount}</span>
+                        <span className="text-lg font-bold text-teal-600 dark:text-teal-400">GHS {totalAmount}</span>
                       </div>
                     </div>
                   </div>
@@ -359,7 +359,7 @@ export default function DepositPage() {
                 type="button"
                 onClick={handleDeposit}
                 disabled={isLoading || !amount || parseFloat(amount) < 5}
-                className="w-full flex items-center justify-center py-4 px-6 rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-bold text-base shadow-lg hover:shadow-xl"
+                className="w-full flex items-center justify-center py-4 px-6 rounded-xl text-white bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 hover:from-teal-700 hover:to-cyan-700 dark:hover:from-teal-600 dark:hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-bold text-base shadow-lg shadow-teal-500/30 hover:shadow-xl"
               >
                 {isLoading ? (
                   <>
@@ -393,9 +393,9 @@ export default function DepositPage() {
                   <Shield className="w-4 h-4 mr-2 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
                   Server-side verification prevents fraud
                 </p>
-                <Link 
-                  href="/myorders" 
-                  className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors"
+                <Link
+                  href="/myorders"
+                  className="flex items-center text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-semibold transition-colors"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" strokeWidth={2} />
                   View transaction history
@@ -441,19 +441,19 @@ export default function DepositPage() {
                     'Your account requires approval. Pay the activation fee of GHS 100 to:'}
                 </p>
                 
-                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-xl mb-5 border border-blue-200 dark:border-blue-800">
+                <div className="bg-teal-50 dark:bg-teal-950/30 p-4 rounded-xl mb-5 border border-teal-200 dark:border-teal-800">
                   <div className="flex justify-between items-center">
                     <div className="space-y-2">
                       <p className="text-slate-900 dark:text-white font-semibold">
-                        <span className="text-blue-600 dark:text-blue-400">Mobile Money:</span> 0597760914
+                        <span className="text-teal-600 dark:text-teal-400">Mobile Money:</span> 0597760914
                       </p>
                       <p className="text-slate-900 dark:text-white font-semibold">
-                        <span className="text-blue-600 dark:text-blue-400">Account Name:</span> KOJO Frimpong
+                        <span className="text-teal-600 dark:text-teal-400">Account Name:</span> KOJO Frimpong
                       </p>
                     </div>
-                    <button 
+                    <button
                       onClick={copyMomoNumber}
-                      className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold p-3 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all"
+                      className="flex items-center space-x-2 text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-semibold p-3 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-all"
                     >
                       <Copy size={16} strokeWidth={2} />
                       {copySuccess && <span className="text-sm text-emerald-600 dark:text-emerald-400">{copySuccess}</span>}
@@ -474,10 +474,10 @@ export default function DepositPage() {
               >
                 Close
               </button>
-              
+
               <a
                 href="mailto:datamartghana@gmail.com"
-                className="flex-1 py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-semibold rounded-xl text-center transition-all shadow-lg hover:shadow-xl"
+                className="flex-1 py-3 px-4 bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 hover:from-teal-700 hover:to-cyan-700 dark:hover:from-teal-600 dark:hover:to-cyan-600 text-white font-semibold rounded-xl text-center transition-all shadow-lg shadow-teal-500/30 hover:shadow-xl"
               >
                 Contact Support
               </a>
