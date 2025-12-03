@@ -34,11 +34,11 @@ const Footer = () => {
                   support@datadoor.com
                 </a>
                 <a
-                  href="tel:+233 54 404 1482"
+                  href="tel:+233 264960106"
                   className="flex items-center text-slate-400 hover:text-white transition-colors text-sm group"
                 >
                   <Phone className="w-4 h-4 mr-2.5 text-teal-500 group-hover:text-teal-400" strokeWidth={2} />
-                  +233 54 404 1482
+                  +233 264960106
                 </a>
                 <div className="flex items-start text-slate-400 text-sm">
                   <MapPin className="w-4 h-4 mr-2.5 mt-0.5 text-teal-500 flex-shrink-0" strokeWidth={2} />

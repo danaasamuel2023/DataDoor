@@ -7,12 +7,12 @@ const BlockedDeviceSchema = new mongoose.Schema({
   ipAddress: { type: String },
   reason: { type: String },
   blockedAt: { type: Date, default: Date.now },
-  blockedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata" }
+  blockedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh" }
 });
 
 // Friend Registration Schema - for tracking registered friends
 const RegisteredFriendSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh" },
   name: { type: String },
   email: { type: String },
   phoneNumber: { type: String },
@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
   referredBy: { type: String, default: null }, // Who referred this user
   
   // Friend registration tracking
-  registeredByUserId: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata" }, // User who registered this user
+  registeredByUserId: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh" }, // User who registered this user
   registeredFriends: [RegisteredFriendSchema], // Friends registered by this user
   
   createdAt: { type: Date, default: Date.now },
@@ -63,7 +63,7 @@ const UserSchema = new mongoose.Schema({
   },
   approvedBy: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: "Usernestdata" 
+    ref: "Userdatadoorgh" 
   },
   approvedAt: { 
     type: Date 
@@ -78,7 +78,7 @@ UserSchema.index({ approvalStatus: 1 });
 
 // Other schemas remain the same...
 const DataPurchaseSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata",  }, 
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh",  }, 
   phoneNumber: { type: String, required: true }, 
   network: { type: String, enum: ["YELLO", "TELECEL", "AT_PREMIUM","airteltigo","at"], required: true },
   capacity: { type: Number, required: true }, 
@@ -98,7 +98,7 @@ price: { type: Number, required: true }, // Total (what they pay)
   processing: { type: Boolean, default: false },
   // Add these fields for admin notes and update tracking
   adminNotes: { type: String },
-  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata" },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh" },
   updatedAt: { type: Date },
   createdAt: { type: Date, default: Date.now }
  
@@ -111,7 +111,7 @@ price: { type: Number, required: true }, // Total (what they pay)
 const TransactionAuditSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usernestdata',
+    ref: 'Userdatadoorgh',
     required: true
   },
   transactionType: {
@@ -147,7 +147,7 @@ const TransactionAuditSchema = new mongoose.Schema({
   },
   relatedOrderId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'DataPurchasenestdata',
+    ref: 'DataPurchasedatadoorgh',
     default: null
   },
   description: String,
@@ -158,7 +158,7 @@ const TransactionAuditSchema = new mongoose.Schema({
   },
   adminId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usernestdata',
+    ref: 'Userdatadoorgh',
     default: null
   },
   ipAddress: String,
@@ -176,7 +176,7 @@ TransactionAuditSchema.index({ status: 1, createdAt: -1 });
 const TransactionSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usernestdata',
+    ref: 'Userdatadoorgh',
     required: true
   },
   type: {
@@ -220,8 +220,8 @@ const TransactionSchema = new mongoose.Schema({
 
 // Updated ReferralBonus Schema to include friend registration type
 const ReferralBonusSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata", required: true }, 
-  referredUserId: { type: mongoose.Schema.Types.ObjectId, ref: "Usernestdata", required: true }, 
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh", required: true }, 
+  referredUserId: { type: mongoose.Schema.Types.ObjectId, ref: "Userdatadoorgh", required: true }, 
   amount: { type: Number, required: true }, 
   status: { type: String, enum: ["pending", "credited"], default: "pending" },
   // Added registration type field to track how the user was referred
@@ -241,7 +241,7 @@ const Schema = mongoose.Schema;
 const apiKeySchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'Usernestdata',
+        ref: 'Userdatadoorgh',
         required: true
     },
     key: {
@@ -277,12 +277,12 @@ apiKeySchema.index({ userId: 1 });
 const OrderReportSchema = new mongoose.Schema({
   userId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: "Usernestdata", 
+    ref: "Userdatadoorgh", 
     required: true 
   },
   purchaseId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: "DataPurchasenestdata", 
+    ref: "DataPurchasedatadoorgh", 
     required: true 
   },
   reason: { 
@@ -317,12 +317,12 @@ OrderReportSchema.index({ purchaseId: 1 });
 OrderReportSchema.index({ status: 1 });
 
 // Export all models
-const User = mongoose.model("Usernestdata", UserSchema);
-const DataPurchase = mongoose.model("DataPurchasenestdata", DataPurchaseSchema);
-const Transaction = mongoose.model("Transactionnestdata", TransactionSchema);
-const ReferralBonus = mongoose.model("ReferralBonusnestdata", ReferralBonusSchema);
+const User = mongoose.model("Userdatadoorgh", UserSchema);
+const DataPurchase = mongoose.model("DataPurchasedatadoorgh", DataPurchaseSchema);
+const Transaction = mongoose.model("Transactiondatadoorgh", TransactionSchema);
+const ReferralBonus = mongoose.model("ReferralBonusdatadoorgh", ReferralBonusSchema);
 const ApiKey = mongoose.model('ApiKeydatahusle', apiKeySchema);
-const DataInventory = mongoose.model("DataInventorynestdata", DataInventorySchema);
+const DataInventory = mongoose.model("DataInventorydatadoorgh", DataInventorySchema);
 const OrderReport = mongoose.model("OrderReporthustle", OrderReportSchema);
 const TransactionAudit = mongoose.model('TransactionAudit', TransactionAuditSchema);
 
