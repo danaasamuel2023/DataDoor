@@ -31,7 +31,7 @@ const Footer = () => {
                   className="flex items-center text-slate-400 hover:text-white transition-colors text-sm group"
                 >
                   <Mail className="w-4 h-4 mr-2.5 text-teal-500 group-hover:text-teal-400" strokeWidth={2} />
-                  support@datadoor.com
+                  datadoorgh@gmail.com
                 </a>
                 <a
                   href="tel:+233 264960106"
