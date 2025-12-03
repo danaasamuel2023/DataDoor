@@ -60,24 +60,46 @@ const mapNetworkToDatamart = (networkType) => {
   };
   
   return networkMap[network] || network.toLowerCase();
+
+
 };
+
+
+
+const bundles = [
+    { value: '1', label: '1GB', capacity: '1', price: '4.80', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '2', label: '2GB', capacity: '2', price: '9.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '3', label: '3GB', capacity: '3', price: '14.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '4', label: '4GB', capacity: '4', price: '19.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '5', label: '5GB', capacity: '5', price: '23.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '6', label: '6GB', capacity: '6', price: '26.60', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '8', label: '8GB', capacity: '8', price: '34.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '10', label: '10GB', capacity: '10', price: '43.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '15', label: '15GB', capacity: '15', price: '61.50', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '20', label: '20GB', capacity: '20', price: '81.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '25', label: '25GB', capacity: '25', price: '105.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '30', label: '30GB', capacity: '30', price: '125.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '40', label: '40GB', capacity: '40', price: '161.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '50', label: '50GB', capacity: '50', price: '210.00', network: 'YELLO', inStock: inventoryAvailable },
+    { value: '100', label: '100GB', capacity: '100', price: '420.00', network: 'YELLO', inStock: inventoryAvailable }
+  ];
 
 // ===== OFFICIAL PRICING STRUCTURES =====
 const OFFICIAL_PRICING = {
    'YELLO': { // MTN pricing structure
-    '1': 4.50,
-    '2': 9.20,
-    '3': 13.50,
-    '4': 18.50,
-    '5': 24.50,
-    '6': 28.00,
-    '8': 38.50,
-    '10': 46.50,
-    '15': 66.50,
-    '20': 88.00,
-    '25': 112.00,
-    '30': 137.00,
-    '40': 169.00,
+    '1': 4.80,
+    '2': 9.50,
+    '3': 14.00,
+    '4': 19.00,
+    '5': 23.00,
+    '6': 26.00,
+    '8': 34.50,
+    '10': 43.50,
+    '15': 61.50,
+    '20': 81.00,
+    '25': 105.00,
+    '30': 125.00,
+    '40': 161.00,
     '50': 210.00,
     '100': 420.00
 
