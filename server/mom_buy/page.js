@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // PAYSTACK CONFIG
-const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY || 'sk_live_a29722bf12559070ca1bdd448490f58869e0207b';
+const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY || 'fce9ddc503af13fa0b1eecea73b5127879256b62217ab997fe84f2fa46804e96';
 const PAYSTACK_PUBLIC = process.env.PAYSTACK_PUBLIC_KEY || 'pk_live_your_key';
 
 // Create Paystack client
