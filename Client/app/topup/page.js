@@ -112,7 +112,7 @@ export default function DepositPage() {
       const total = parseFloat(totalAmount);
       
       // Send both values for server-side verification
-      const response = await fetch('https://datadoor.onrender.com/m/api/v1/deposit', {
+      const response = await fetch('https://datadoor.onrender.com/api/v1/deposit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

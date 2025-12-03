@@ -4,15 +4,16 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
-import { 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
+import {
+  CheckCircle,
+  XCircle,
+  Clock,
   AlertCircle,
   Loader2,
   ArrowRight,
   Shield,
-  Home
+  Home,
+  Database
 } from 'lucide-react';
 
 function PaymentCallbackClient() {
@@ -31,7 +32,7 @@ function PaymentCallbackClient() {
       const verifyPayment = async () => {
         try {
           // Call your backend to verify the payment status
-          const response = await axios.get(`https://datanest-lkyu.onrender.com/api/v1/verify-payment?reference=${reference}`);
+          const response = await axios.get(`https://datadoor.onrender.com/api/v1/verify-payment?reference=${reference}`);
           
           if (response.data.success) {
             setStatus('success');
@@ -93,59 +94,64 @@ function PaymentCallbackClient() {
 
   const statusConfig = {
     processing: {
-      icon: <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />,
-      iconBg: 'bg-blue-100',
+      icon: <Loader2 className="w-16 h-16 text-teal-600 dark:text-teal-400 animate-spin" />,
+      iconBg: 'bg-teal-100 dark:bg-teal-900/40',
       statusText: 'Processing',
-      statusColor: 'text-blue-700'
+      statusColor: 'text-teal-700 dark:text-teal-400'
     },
     success: {
-      icon: <CheckCircle className="w-16 h-16 text-green-600" />,
-      iconBg: 'bg-green-100',
+      icon: <CheckCircle className="w-16 h-16 text-emerald-600 dark:text-emerald-400" />,
+      iconBg: 'bg-emerald-100 dark:bg-emerald-900/40',
       statusText: 'Success',
-      statusColor: 'text-green-700'
+      statusColor: 'text-emerald-700 dark:text-emerald-400'
     },
     failed: {
-      icon: <XCircle className="w-16 h-16 text-red-600" />,
-      iconBg: 'bg-red-100',
+      icon: <XCircle className="w-16 h-16 text-red-600 dark:text-red-400" />,
+      iconBg: 'bg-red-100 dark:bg-red-900/40',
       statusText: 'Failed',
-      statusColor: 'text-red-700'
+      statusColor: 'text-red-700 dark:text-red-400'
     },
     pending: {
-      icon: <Clock className="w-16 h-16 text-yellow-600" />,
-      iconBg: 'bg-yellow-100',
+      icon: <Clock className="w-16 h-16 text-amber-600 dark:text-amber-400" />,
+      iconBg: 'bg-amber-100 dark:bg-amber-900/40',
       statusText: 'Pending',
-      statusColor: 'text-yellow-700'
+      statusColor: 'text-amber-700 dark:text-amber-400'
     }
   };
 
   const currentConfig = statusConfig[status] || statusConfig.processing;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       {/* Navigation Bar */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">DataNest</h1>
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/30">
+                <Database className="w-5 h-5 text-white" strokeWidth={2.5} />
+              </div>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+                Data<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400">Door</span>
+              </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">Payment Verification</span>
-              <Shield className="w-5 h-5 text-gray-400" />
+              <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Payment Verification</span>
+              <Shield className="w-5 h-5 text-teal-600 dark:text-teal-400" />
             </div>
           </div>
         </div>
       </nav>
 
       <div className="max-w-md mx-auto px-4 py-16">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           {/* Status Header */}
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                 Payment {currentConfig.statusText}
               </h2>
-              <span className={`text-sm font-medium ${currentConfig.statusColor}`}>
+              <span className={`text-sm font-semibold ${currentConfig.statusColor}`}>
                 Status: {currentConfig.statusText}
               </span>
             </div>
