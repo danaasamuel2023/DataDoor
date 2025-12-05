@@ -355,7 +355,7 @@ router.post('/deposit', async (req, res) => {
         amount: paystackAmount,
         currency: 'GHS',
         reference,
-        callback_url: `https://www.datanestgh.com/payment/callback?reference=${reference}`,
+        callback_url: `https://www.datadoorgh.shop/payment/callback?reference=${reference}`,
         metadata: {
           depositAmount: parsedAmount,
           totalWithFee: parsedTotal,

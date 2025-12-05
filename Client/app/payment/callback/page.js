@@ -11,9 +11,7 @@ import {
   AlertCircle,
   Loader2,
   ArrowRight,
-  Shield,
   Home,
-  Database
 } from 'lucide-react';
 
 function PaymentCallbackClient() {
@@ -24,30 +22,25 @@ function PaymentCallbackClient() {
   const reference = searchParams.get('reference');
   
   useEffect(() => {
-    // Only proceed if we have a reference from the URL
     if (reference) {
       let checkCount = 0;
-      const maxChecks = 10; // Maximum number of verification attempts
+      const maxChecks = 10;
       
       const verifyPayment = async () => {
         try {
-          // Call your backend to verify the payment status
           const response = await axios.get(`https://datadoor.onrender.com/api/v1/verify-payment?reference=${reference}`);
           
           if (response.data.success) {
             setStatus('success');
             setMessage('Your deposit was successful! Funds have been added to your wallet.');
-            // No need to check anymore
             return true;
           } else if (response.data.data && response.data.data.status === 'failed') {
             setStatus('failed');
             setMessage('Payment failed. Please try again or contact support.');
             return true;
           } else if (checkCount < maxChecks) {
-            // Still pending, continue checking
             return false;
           } else {
-            // Reached max attempts, tell user to check account later
             setStatus('pending');
             setMessage('Your payment is still processing. Please check your account in a few minutes.');
             return true;
@@ -55,7 +48,6 @@ function PaymentCallbackClient() {
         } catch (error) {
           console.error('Verification error:', error);
           if (checkCount < maxChecks) {
-            // Error occurred but still have attempts left
             return false;
           } else {
             setStatus('failed');
@@ -70,23 +62,19 @@ function PaymentCallbackClient() {
         
         if (!isComplete) {
           checkCount++;
-          // Wait 3 seconds before checking again
           setTimeout(checkPaymentStatus, 3000);
         }
       };
       
-      // Start the verification process
       checkPaymentStatus();
     }
   }, [reference]);
 
-  // Handle redirect to dashboard after success
   useEffect(() => {
     if (status === 'success') {
-      // Optionally auto-redirect after a few seconds
       const redirectTimer = setTimeout(() => {
         router.push('/');
-      }, 5000); // Redirect after 5 seconds
+      }, 5000);
       
       return () => clearTimeout(redirectTimer);
     }
@@ -122,28 +110,8 @@ function PaymentCallbackClient() {
   const currentConfig = statusConfig[status] || statusConfig.processing;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      {/* Navigation Bar */}
-      <nav className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-cyan-600 dark:from-teal-500 dark:to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/30">
-                <Database className="w-5 h-5 text-white" strokeWidth={2.5} />
-              </div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-                Data<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400">Door</span>
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Payment Verification</span>
-              <Shield className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="max-w-md mx-auto px-4 py-16">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="max-w-md w-full mx-auto px-4 py-16">
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           {/* Status Header */}
           <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
@@ -166,27 +134,27 @@ function PaymentCallbackClient() {
             </div>
             
             {/* Message */}
-            <p className="text-center text-gray-600 mb-8">
+            <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
               {message}
             </p>
             
             {/* Progress Bar for Success */}
             {status === 'success' && (
               <div className="mb-8">
-                <p className="text-sm text-gray-500 text-center mb-3">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-3">
                   Redirecting to dashboard in 5 seconds...
                 </p>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div className="h-full bg-blue-600 rounded-full animate-progress" />
+                <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+                  <div className="h-full bg-teal-600 dark:bg-teal-500 rounded-full animate-progress" />
                 </div>
               </div>
             )}
             
             {/* Reference Display */}
-            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-6">
+            <div className="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-200 dark:border-slate-600 mb-6">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">Reference ID:</span>
-                <span className="text-sm font-mono font-medium text-gray-900">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Reference ID:</span>
+                <span className="text-sm font-mono font-medium text-gray-900 dark:text-white">
                   {reference ? reference.substring(0, 20) + '...' : 'N/A'}
                 </span>
               </div>
@@ -196,7 +164,7 @@ function PaymentCallbackClient() {
             {status !== 'processing' && (
               <div className="space-y-3">
                 <Link href="/" className="block">
-                  <button className="w-full flex items-center justify-center py-3 px-4 rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors font-medium">
+                  <button className="w-full flex items-center justify-center py-3 px-4 rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors font-medium">
                     <Home className="w-5 h-5 mr-2" />
                     Return to Dashboard
                   </button>
@@ -204,7 +172,7 @@ function PaymentCallbackClient() {
                 
                 {status === 'failed' && (
                   <Link href="/deposit" className="block">
-                    <button className="w-full flex items-center justify-center py-3 px-4 rounded-lg text-blue-600 bg-white border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors font-medium">
+                    <button className="w-full flex items-center justify-center py-3 px-4 rounded-lg text-teal-600 dark:text-teal-400 bg-white dark:bg-slate-800 border border-teal-600 dark:border-teal-500 hover:bg-teal-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors font-medium">
                       Try Again
                       <ArrowRight className="w-5 h-5 ml-2" />
                     </button>
@@ -214,8 +182,8 @@ function PaymentCallbackClient() {
                 {(status === 'failed' || status === 'pending') && (
                   <div className="text-center">
                     <a 
-                      href="mailto:support@datanest.com" 
-                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                      href="mailto:support@datadoor.com" 
+                      className="text-sm text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium"
                     >
                       Contact Support
                     </a>
@@ -227,14 +195,14 @@ function PaymentCallbackClient() {
         </div>
 
         {/* Support Information */}
-        <div className="mt-6 p-4 bg-white rounded-lg border border-gray-200">
+        <div className="mt-6 p-4 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
           <div className="flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-            <div className="text-sm text-gray-600">
+            <AlertCircle className="w-5 h-5 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
+            <div className="text-sm text-gray-600 dark:text-gray-300">
               <p className="font-medium mb-1">Need Help?</p>
               <p>If you're experiencing issues with your payment, please contact our support team at{' '}
-                <a href="mailto:support@datanest.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@datanest.com
+                <a href="mailto:support@datadoor.com" className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium">
+                  support@datadoor.com
                 </a>
               </p>
             </div>
@@ -256,40 +224,24 @@ function PaymentCallbackClient() {
   );
 }
 
-// Fallback component to show while loading
 function PaymentCallbackFallback() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation Bar */}
-      <nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">DataSpot</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">Payment Verification</span>
-              <Shield className="w-5 h-5 text-gray-400" />
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="max-w-md mx-auto px-4 py-16">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-            <h2 className="text-lg font-semibold text-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="max-w-md w-full mx-auto px-4 py-16">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
               Payment Processing
             </h2>
           </div>
 
           <div className="p-8">
             <div className="flex justify-center mb-6">
-              <div className="bg-blue-100 rounded-full p-6">
-                <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
+              <div className="bg-teal-100 dark:bg-teal-900/40 rounded-full p-6">
+                <Loader2 className="w-16 h-16 text-teal-600 dark:text-teal-400 animate-spin" />
               </div>
             </div>
-            <p className="text-center text-gray-600">
+            <p className="text-center text-gray-600 dark:text-gray-300">
               Loading payment details...
             </p>
           </div>
@@ -299,7 +251,6 @@ function PaymentCallbackFallback() {
   );
 }
 
-// Main component that wraps the client component with Suspense
 export default function PaymentCallback() {
   return (
     <Suspense fallback={<PaymentCallbackFallback />}>
