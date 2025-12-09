@@ -289,20 +289,20 @@ const iShareBundleSelect = () => {
   const inventoryAvailable = true;
   
   const bundles = [
-    { value: '1', label: '1GB', capacity: '1', price: '3.95', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '2', label: '2GB', capacity: '2', price: '8.35', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '3', label: '3GB', capacity: '3', price: '13.25', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '4', label: '4GB', capacity: '4', price: '16.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '5', label: '5GB', capacity: '5', price: '19.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '6', label: '6GB', capacity: '6', price: '23.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '8', label: '8GB', capacity: '8', price: '30.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '10', label: '10GB', capacity: '10', price: '38.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '12', label: '12GB', capacity: '12', price: '45.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '15', label: '15GB', capacity: '15', price: '57.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '25', label: '25GB', capacity: '25', price: '95.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '30', label: '30GB', capacity: '30', price: '115.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '40', label: '40GB', capacity: '40', price: '151.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
-    { value: '50', label: '50GB', capacity: '50', price: '190.00', network: 'AT_PREMIUM', inStock: inventoryAvailable }
+    { value: '1', label: '1GB', capacity: '1', price: '4.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '2', label: '2GB', capacity: '2', price: '9.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '3', label: '3GB', capacity: '3', price: '14.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '4', label: '4GB', capacity: '4', price: '18.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '5', label: '5GB', capacity: '5', price: '22.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '6', label: '6GB', capacity: '6', price: '25.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '8', label: '8GB', capacity: '8', price: '32.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '10', label: '10GB', capacity: '10', price: '41.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '12', label: '12GB', capacity: '12', price: '48.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '15', label: '15GB', capacity: '15', price: '60.50', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '25', label: '25GB', capacity: '25', price: '100.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '30', label: '30GB', capacity: '30', price: '121.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '40', label: '40GB', capacity: '40', price: '158.00', network: 'AT_PREMIUM', inStock: inventoryAvailable },
+    { value: '50', label: '50GB', capacity: '50', price: '201.00', network: 'AT_PREMIUM', inStock: inventoryAvailable }
   ];
 
   // Get user data from localStorage on component mount
