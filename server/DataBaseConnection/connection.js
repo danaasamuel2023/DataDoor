@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ConnectDB = () => {
-    const password = '0246783840Sa';
+    const password = 'c14zowL3F2ykjtqx';
     const uri = `mongodb+srv://dajounimarket:${password}@cluster0.kp8c2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
     const connectWithRetry = () => {
